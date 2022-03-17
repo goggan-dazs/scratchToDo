@@ -12,28 +12,7 @@ router.get("/", function (req, res, next) {
   res.send("respond with a resource");
 });
 
-// router.post("/", (req, res, next) => {
-//   const {lists} = req.body;
-//   const newList = new List({lists})
-//   console.log(lists);
 
-//   newList.save()
-//   .then(() => {
-//     console.log("successfully added List!");
-//     res.render("/index.ejs", {lists});
-
-//   })
-//   .catch((err) => console.log(err));
-// })
-// .patch("index/list/:_id", (req, res, next) => {
-//   const { _id } = req.params;
-//   lists.deleteOne({_id})
-//   .then(() => {
-//     console.log("Deleted Todo Successfully!");
-//     res.redirect("/")
-//   })
-//   .catch((err) => console.log(err));
-// });
 
 router.post("/register", async function (req, res, next) {
   const { username, password, email } = req.body;
@@ -46,6 +25,26 @@ router.post("/register", async function (req, res, next) {
       username: username,
       password: hashedPassword,
       email: email,
+    })
+    res.redirect("../login")
+    console.log(result);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+router.post("/newList", async function (req, res, next) {
+  const { username, password, email } = req.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    //create and store user
+    const result = await User.create({
+      username: username,
+      password: hashedPassword,
+      email: email,
+      lists: {}
     })
     res.redirect("../login")
     console.log(result);

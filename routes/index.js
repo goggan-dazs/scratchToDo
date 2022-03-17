@@ -23,9 +23,9 @@ router.get('/profile/:id', isValidToken, async function(req, res, next) {
   const {id} = req.params;
 
   const user = await User.findOne({
-    
-  })
-
+    _id: id
+  });
+  console.log(user);
   res.render('profile', {name: user.username});
 });
 
